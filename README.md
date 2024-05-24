@@ -1,0 +1,1 @@
+# bingo-2.0-falante
