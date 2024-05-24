@@ -41,10 +41,11 @@
             width: 100px;
             text-align: center;
         }
-        #add-number {
+        #add-number, #repeat-number {
             padding: 10px 20px;
             font-size: 1.5em;
             cursor: pointer;
+            margin-top: 10px;
         }
         #previous-numbers {
             display: flex;
@@ -84,6 +85,7 @@
         <div id="controls">
             <input type="number" id="number-input" min="1" max="75" placeholder="Número">
             <button id="add-number">Adicionar</button>
+            <button id="repeat-number">Repetir Número</button>
         </div>
         <div id="previous-numbers">
             <div id="column-B" class="column">
@@ -108,6 +110,7 @@
         const currentNumberElement = document.getElementById('current-number');
         const numberInput = document.getElementById('number-input');
         const addNumberButton = document.getElementById('add-number');
+        const repeatNumberButton = document.getElementById('repeat-number');
 
         const columns = {
             B: document.getElementById('column-B'),
@@ -118,6 +121,8 @@
         };
 
         let previousNumbers = [];
+        let lastNumber = null;
+        let lastLetter = null;
 
         function getColumn(newNumber) {
             if (newNumber >= 1 && newNumber <= 15) return 'B';
@@ -144,6 +149,9 @@
             numberItem.className = 'number-item';
             columns[columnLetter].appendChild(numberItem);
 
+            lastNumber = newNumber;
+            lastLetter = columnLetter;
+
             speakNumber(columnLetter, newNumber);
 
             numberInput.value = '';
@@ -162,6 +170,14 @@
                 updateNumber(newNumber);
             } else {
                 alert('Por favor, insira um número válido.');
+            }
+        });
+
+        repeatNumberButton.addEventListener('click', () => {
+            if (lastNumber !== null && lastLetter !== null) {
+                speakNumber(lastLetter, lastNumber);
+            } else {
+                alert('Nenhum número sorteado ainda!');
             }
         });
 
