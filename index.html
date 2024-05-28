@@ -41,7 +41,7 @@
             width: 100px;
             text-align: center;
         }
-        #add-number, #repeat-number {
+        #add-number, #repeat-number, #play-bingo-sound {
             padding: 10px 20px;
             font-size: 1.5em;
             cursor: pointer;
@@ -77,6 +77,9 @@
                 opacity: 1;
             }
         }
+        #bingo-iframe {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -86,8 +89,9 @@
             <input type="number" id="number-input" min="1" max="75" placeholder="Número">
             <button id="add-number">Adicionar</button>
             <button id="repeat-number">Repetir Número</button>
- <iframe width="110" height="200" src="https://www.myinstants.com/instant/bingo-72858/embed/" frameborder="0" scrolling="no"></iframe>
+            <button id="play-bingo-sound">Tocar Bingo</button>
         </div>
+        <iframe id="bingo-iframe" width="110" height="200" src="https://www.myinstants.com/instant/bingo-72858/embed/" frameborder="0" scrolling="no"></iframe>
         <div id="previous-numbers">
             <div id="column-B" class="column">
                 <div class="column-title">B</div>
@@ -112,6 +116,8 @@
         const numberInput = document.getElementById('number-input');
         const addNumberButton = document.getElementById('add-number');
         const repeatNumberButton = document.getElementById('repeat-number');
+        const playBingoSoundButton = document.getElementById('play-bingo-sound');
+        const bingoIframe = document.getElementById('bingo-iframe');
 
         const columns = {
             B: document.getElementById('column-B'),
@@ -165,6 +171,10 @@
             window.speechSynthesis.speak(utterance);
         }
 
+        function playBingoSound() {
+            bingoIframe.contentWindow.location.reload(true);
+        }
+
         addNumberButton.addEventListener('click', () => {
             const newNumber = parseInt(numberInput.value, 10);
             if (!isNaN(newNumber)) {
@@ -181,6 +191,8 @@
                 alert('Nenhum número sorteado ainda!');
             }
         });
+
+        playBingoSoundButton.addEventListener('click', playBingoSound);
 
         numberInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
