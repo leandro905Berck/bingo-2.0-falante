@@ -13,20 +13,22 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            position: relative;
         }
         #container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 1;
         }
         #current-number {
-            font-size: 15em;
+            font-size: 5em;
+            font-weight: bold;
             color: #ff4500;
             animation: pop 0.5s ease;
         }
         .letter {
             color: #0000ff; /* Cor azul para a letra */
-            font-weight: bold;
         }
         #controls {
             margin-top: 20px;
@@ -80,17 +82,41 @@
         #bingo-iframe {
             display: none;
         }
+        .ad {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 150px;
+            background-color: #fff;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 0;
+        }
+        #left-ad {
+            left: 0;
+        }
+        #right-ad {
+            right: 0;
+        }
     </style>
 </head>
 <body>
+    <div id="left-ad" class="ad">
+        <!-- Insira sua propaganda aqui -->
+        <p>Propaganda 1</p>
+    </div>
     <div id="container">
         <div id="current-number"><span class="letter">B</span>0</div>
         <div id="controls">
             <input type="number" id="number-input" min="1" max="75" placeholder="Número">
             <button id="add-number">Adicionar</button>
             <button id="repeat-number">Repetir Número</button>
-            <button id="play-bingo-sound">Tocar Bingo<iframe id="bingo-iframe" width="110" height="200" src="https://www.myinstants.com/instant/bingo-72858/embed/" frameborder="0" scrolling="no"></iframe></button>
+            <button id="play-bingo-sound">Tocar Bingo</button>
         </div>
+        <iframe id="bingo-iframe" width="110" height="200" src="https://www.myinstants.com/instant/bingo-72858/embed/" frameborder="0" scrolling="no"></iframe>
         <div id="previous-numbers">
             <div id="column-B" class="column">
                 <div class="column-title">B</div>
@@ -108,6 +134,10 @@
                 <div class="column-title">O</div>
             </div>
         </div>
+    </div>
+    <div id="right-ad" class="ad">
+        <!-- Insira sua propaganda aqui -->
+        <p>Propaganda 2</p>
     </div>
 
     <script>
