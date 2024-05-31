@@ -22,13 +22,13 @@
             z-index: 1;
         }
         #current-number {
-            font-size: 5em;
-            font-weight: bold;
+            font-size: 15em;
             color: #ff4500;
             animation: pop 0.5s ease;
         }
         .letter {
             color: #0000ff; /* Cor azul para a letra */
+            font-weight: bold;
         }
         #controls {
             margin-top: 20px;
@@ -43,14 +43,14 @@
             width: 100px;
             text-align: center;
         }
-        #add-number, #repeat-number, #play-bingo-sound {
+        #add-number {
             padding: 10px 20px;
             font-size: 1.5em;
             cursor: pointer;
-            margin-top: 10px;
         }
         #previous-numbers {
             display: flex;
+            font-weight: bold;
             justify-content: space-around;
             width: 100%;
             margin-top: 20px;
@@ -78,9 +78,6 @@
                 transform: scale(1);
                 opacity: 1;
             }
-        }
-        #bingo-iframe {
-            display: none;
         }
         .ad {
             position: absolute;
@@ -112,10 +109,7 @@
         <div id="controls">
             <input type="number" id="number-input" min="1" max="75" placeholder="Número">
             <button id="add-number">Adicionar</button>
-            <button id="repeat-number">Repetir Número</button>
-            <button id="play-bingo-sound">Tocar Bingo</button>
         </div>
-        <iframe id="bingo-iframe" width="110" height="200" src="https://www.myinstants.com/instant/bingo-72858/embed/" frameborder="0" scrolling="no"></iframe>
         <div id="previous-numbers">
             <div id="column-B" class="column">
                 <div class="column-title">B</div>
@@ -142,9 +136,6 @@
         const currentNumberElement = document.getElementById('current-number');
         const numberInput = document.getElementById('number-input');
         const addNumberButton = document.getElementById('add-number');
-        const repeatNumberButton = document.getElementById('repeat-number');
-        const playBingoSoundButton = document.getElementById('play-bingo-sound');
-        const bingoIframe = document.getElementById('bingo-iframe');
 
         const columns = {
             B: document.getElementById('column-B'),
@@ -155,8 +146,6 @@
         };
 
         let previousNumbers = [];
-        let lastNumber = null;
-        let lastLetter = null;
 
         function getColumn(newNumber) {
             if (newNumber >= 1 && newNumber <= 15) return 'B';
@@ -183,23 +172,8 @@
             numberItem.className = 'number-item';
             columns[columnLetter].appendChild(numberItem);
 
-            lastNumber = newNumber;
-            lastLetter = columnLetter;
-
-            speakNumber(columnLetter, newNumber);
-
             numberInput.value = '';
             numberInput.focus();
-        }
-
-        function speakNumber(letter, number) {
-            const utterance = new SpeechSynthesisUtterance(`${letter} ${number}`);
-            utterance.lang = 'pt-BR';
-            window.speechSynthesis.speak(utterance);
-        }
-
-        function playBingoSound() {
-            bingoIframe.contentWindow.location.reload(true);
         }
 
         addNumberButton.addEventListener('click', () => {
@@ -210,16 +184,6 @@
                 alert('Por favor, insira um número válido.');
             }
         });
-
-        repeatNumberButton.addEventListener('click', () => {
-            if (lastNumber !== null && lastLetter !== null) {
-                speakNumber(lastLetter, lastNumber);
-            } else {
-                alert('Nenhum número sorteado ainda!');
-            }
-        });
-
-        playBingoSoundButton.addEventListener('click', playBingoSound);
 
         numberInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
